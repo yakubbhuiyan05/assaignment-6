@@ -156,8 +156,26 @@
         <h2 class="text-3xl font-bold text-center mb-10">Trending Now</h2>
         <div id="product-container" class="grid md:grid-cols-3 gap-8"></div>
       </section>
+      <!-- Modal part -->
+      <section>
+        
+        <!-- Product Details Modal -->
+        <dialog id="product_modal" class="modal">
+          <div class="modal-box max-w-3xl">
+            <div id="modal-content">
+              <!-- Dynamic -->
+            </div>
+
+            <div class="modal-action">
+              <form method="dialog">
+                <button class="btn">Close</button>
+              </form>
+            </div>
+          </div>
+        </dialog>
+      </section>
     </main>
-<!-- Footer part -->
+    <!-- Footer part -->
     <footer id="about" class="bg-slate-900 text-gray-300 pt-14 pb-6 mt-20">
       <div class="max-w-7xl mx-auto px-8 grid md:grid-cols-4 gap-10">
         <!-- SwiftCart logo & others -->
@@ -241,6 +259,5 @@
 
     <!-- js link -->
     <script src="./js/index.js"></script>
-    
   </body>
 </html>

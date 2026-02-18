@@ -2,7 +2,6 @@
 const productContainer = document.getElementById("product-container");
 const categoryContainer = document.getElementById("category-container");
 
-
 // Load All Products
 const loadProducts = async () => {
   const res = await fetch("https://fakestoreapi.com/products");
@@ -15,7 +14,7 @@ const loadCategories = async () => {
   const res = await fetch("https://fakestoreapi.com/products/categories");
   const data = await res.json();
 
-  data.forEach(category => {
+  data.forEach((category) => {
     const btn = document.createElement("button");
     btn.classList = "btn btn-outline btn-sm";
     btn.innerText = category;
@@ -26,12 +25,32 @@ const loadCategories = async () => {
   });
 };
 
+// Load Products By Category
+const loadCategoryProducts = async (category) => {
+  const res = await fetch(
+    `https://fakestoreapi.com/products/category/${category}`,
+  );
+  const data = await res.json();
+  displayProducts(data);
+};
+
+// Load Single Product Details
+const loadProductDetails = async (id) => {
+  try {
+    const res = await fetch(`https://fakestoreapi.com/products/${id}`);
+    const data = await res.json();
+
+    showProductModal(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // Display Products
 const displayProducts = (products) => {
   productContainer.innerHTML = "";
 
-  products.forEach(product => {
+  products.forEach((product) => {
     const card = document.createElement("div");
     card.classList = "card bg-base-100 shadow-xl";
 
@@ -49,7 +68,7 @@ const displayProducts = (products) => {
         <p class="font-bold text-lg">$${product.price}</p>
 
         <div class="card-actions justify-between">
-          <button class="btn btn-outline btn-sm">
+          <button id="" class="btn btn-outline btn-sm" onclick="loadProductDetails(${product.id})">
             Details
           </button>
           <button class="btn btn-primary btn-sm">
@@ -63,13 +82,41 @@ const displayProducts = (products) => {
   });
 };
 
-// Load Products By Category
-const loadCategoryProducts = async (category) => {
-  const res = await fetch(`https://fakestoreapi.com/products/category/${category}`);
-  const data = await res.json();
-  displayProducts(data);
-};
+// display Product Inside Modal
+const showProductModal = (product) => {
+  const modalContent = document.getElementById("modal-content");
 
+  modalContent.innerHTML = `
+    <div class="grid md:grid-cols-2 gap-6 items-center">
+      
+      <div class="bg-white p-6 rounded">
+        <img src="${product.image}" class="h-64 mx-auto object-contain" />
+      </div>
+
+      <div>
+        <h2 class="text-2xl font-bold mb-2">${product.title}</h2>
+        <p class="text-gray-500 mb-3">${product.category}</p>
+
+        <p class="mb-4 text-sm">
+          ${product.description}
+        </p>
+
+        <div class="flex items-center justify-between">
+          <span class="text-xl font-bold text-primary">
+            $${product.price}
+          </span>
+
+          <span class="text-sm">
+            ⭐ ${product.rating.rate} (${product.rating.count})
+          </span>
+        </div>
+      </div>
+
+    </div>
+  `;
+
+  document.getElementById("product_modal").showModal();
+};
 
 loadProducts();
 loadCategories();
